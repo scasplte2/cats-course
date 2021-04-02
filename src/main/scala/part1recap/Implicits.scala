@@ -51,7 +51,7 @@ object Implicits {
   }
 
   case class Cat(catName: String)
-  val catsToJson = listToJson(List(Cat("Tom"), Cat("Garfield")))
+  val catsToJson = listToJson(List(Cat("Tom"), Person("Garfield")))
   // in the background: val catsToJson = listToJson(List(Cat("Tom"), Cat("Garfield")))(oneArgCaseClassSerializer[Cat])
   // implicit methods are used to PROVE THE EXISTENCE of a type
   // can be used for implicit conversions (DISCOURAGED)
