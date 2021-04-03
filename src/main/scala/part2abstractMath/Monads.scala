@@ -50,6 +50,8 @@ object Monads {
   trait MyMonad[M[_]] {
     def pure[A](value: A): M[A]
     def flatMap[A, B](value: M[A])(f: A => M[B]): M[B]
+    def map[A, B](value: M[A])(f: A => B): M[B] =
+      flatMap(value)(v => pure(f(v)))
   }
 
   import cats.Monad
@@ -85,13 +87,33 @@ object Monads {
         }
     }
 
-//  def getPairMonadFor[A, B, F[_]: Monad](fa: F[A], fb: F[B]): F[(A, B)] = {
-//    for {
-//      a <- fa
-//      b <- fb
-//    } yield (a, b)
-//  }
+  // estension methods - weirder imports, pure & flatMap
+  import cats.syntax.applicative._
+  import cats.syntax.flatMap._
+  val oneOption = 1.pure[Option] // pulls implicit Monad[Option] => will resolve to Some(2)
+  val oneList = 1.pure[List] // same as Monad[List].pure(1)
 
+  val oneOptionTransformed = oneOption.flatMap(x => (x + 1).pure[Option])
+
+  // todo 3: implement the map method in MyMonad
+  // Monads extend Functors
+  import cats.syntax.functor._
+  val oneOptionMapped = Monad[Option].map(oneOption)(_ + 2)
+  val oneOptionMapped2 = oneOption.map(_ + 2)
+
+  // for-comprehensions
+  val composedOption = for {
+    one <- 1.pure[Option]
+    two <- 2.pure[Option]
+  } yield one + two
+
+  // todo 4: getPairs with for-comprehension
+  def getPairMonadFor[A, B, F[_]: Monad](fa: F[A], fb: F[B]): F[(A, B)] = {
+    for {
+      a <- fa
+      b <- fb
+    } yield (a, b)
+  }
 
   def main(args: Array[String]): Unit = {
     println(combinedList)
@@ -104,5 +126,7 @@ object Monads {
     println(getPairMonad(numList, charList))
     println(getPairMonad(numberOption, charOption))
     getPairMonad(numberFuture, charFuture).foreach(println)
+    println(oneOptionMapped)
+    println(oneOptionMapped2)
   }
 }
