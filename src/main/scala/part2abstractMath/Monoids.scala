@@ -1,8 +1,7 @@
-package part1intro
+package part2abstractMath
 
 object Monoids {
 
-  import cats.Semigroup
   import cats.instances.int._
   import cats.syntax.semigroup._
 
