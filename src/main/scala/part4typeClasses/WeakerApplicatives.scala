@@ -66,7 +66,7 @@ object WeakerApplicatives {
       }
     }
   }
-  
+
   def main(args: Array[String]): Unit = {
 
     println(jamesMapN.mapN(tupleOfOptions)(_ + _))
