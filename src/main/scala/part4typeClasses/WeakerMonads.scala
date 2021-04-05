@@ -19,10 +19,10 @@ object WeakerMonads {
     ////                                                  F[A]   A   F[A=>B]  A=>B  F[B]
 
   }
-
-  trait MyMoand[F[_]] extends Applicative[F]  with MyFlatMap[F]{
-    override def map[A, B](fa: F[A])(f: A => B): F[B] = flatMap(fa)(pure(_))
-  }
+//
+//  trait MyMoand[F[_]] extends Applicative[F]  with MyFlatMap[F]{
+//    override def map[A, B](fa: F[A])(f: A => B): F[B] = flatMap(fa)(pure(_))
+//  }
 
   import cats.FlatMap
   import cats.syntax.flatMap._ // flatMap extension method
